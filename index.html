@@ -528,7 +528,7 @@
                 
                 // Set default values for all criteria
                 criteriaList.forEach(criteria => {
-                    evaluationData.samples[currentSample][criteria] = 50;
+                    evaluationData.samples[currentSample][criteria] = 0;
                 });
             }
 
@@ -664,7 +664,7 @@
                 ];
                 
                 criteriaList.forEach(criteria => {
-                    row.push(sample[criteria] || 0); //
+                    row.push(sample[criteria] || 50); //
                 });
                 
                 row.push(sample[specialCriteria] || ''); // Empty if not selected
