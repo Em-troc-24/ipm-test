@@ -4,7 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Đánh Giá Mẫu</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+function goBackToUserInfo() {
+    if (confirm('Bạn có chắc chắn muốn quay lại để sửa mã số? Dữ liệu đánh giá hiện tại sẽ bị xóa.')) {
+        currentUser = null;
+        currentSample = 0;
+        evaluationData = {};
+
+        document.getElementById('evaluation-section').style.display = 'none';
+        document.getElementById('completion-message').style.display = 'none';
+        document.getElementById('user-info-section').style.display = 'block';
+
+        // Reset input fields
+        document.getElementById('userName').value = '';
+        document.getElementById('userCode').value = '';
+
+        scrollToTop();
+    }
+}
+
+</script>
     <style>
         * {
             margin: 0;
@@ -365,6 +384,10 @@
             </div>
 
             <div id="evaluation-section" class="evaluation-section">
+<div style="text-align: left; margin-bottom: 20px;">
+    <button class="btn" onclick="goBackToUserInfo()">🔁 Quay lại</button>
+</div>
+
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
@@ -760,6 +783,25 @@ function sendToGoogleSheets() {
     });
 }
 
+
+
+function goBackToUserInfo() {
+    if (confirm('Bạn có chắc chắn muốn quay lại để sửa mã số? Dữ liệu đánh giá hiện tại sẽ bị xóa.')) {
+        currentUser = null;
+        currentSample = 0;
+        evaluationData = {};
+
+        document.getElementById('evaluation-section').style.display = 'none';
+        document.getElementById('completion-message').style.display = 'none';
+        document.getElementById('user-info-section').style.display = 'block';
+
+        // Reset input fields
+        document.getElementById('userName').value = '';
+        document.getElementById('userCode').value = '';
+
+        scrollToTop();
+    }
+}
 
 </script>
 </body>
