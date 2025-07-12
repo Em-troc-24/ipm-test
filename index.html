@@ -664,7 +664,7 @@
                 ];
                 
                 criteriaList.forEach(criteria => {
-                    row.push(sample[criteria] || 50); // Default to 50 if somehow missing
+                    row.push(sample[criteria] || 0); //
                 });
                 
                 row.push(sample[specialCriteria] || ''); // Empty if not selected
