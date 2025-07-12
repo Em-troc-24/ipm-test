@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Đánh Giá Mẫu</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .evaluation-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sample-header {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .sample-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .criteria-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .criteria-label {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .slider-container {
+            position: relative;
+            margin: 15px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .slider-value {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .completion-message {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .completion-message h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c62828;
+            display: none;
+        }
+
+        .special-criteria {
+            border-left: 4px solid #FF6B6B;
+            background: #fff8f8;
+        }
+
+        .required {
+            color: #FF6B6B;
+            font-weight: bold;
+        }
+
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .rating-option:hover {
+            transform: scale(1.1);
+        }
+
+        .rating-option input[type="radio"] {
+            display: none;
+        }
+
+        .rating-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #666;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .rating-option input[type="radio"]:checked + .rating-number {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border-color: #4CAF50;
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .rating-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #1976d2;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Pulse animation for highlighting required fields */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                border-left-color: #FF6B6B;
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+                border-left-color: #FF3333;
+                transform: scale(1.02);
+            }
+            100% {
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                border-left-color: #FF6B6B;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Form Đánh Giá Mẫu</h1>
+            <p>Hệ thống đánh giá chuyên nghiệp</p>
+        </div>
+
+        <div class="content">
+            <div id="user-info-section">
+                <div class="info-box">
+                    <strong>Hướng dẫn:</strong> Nhập thông tin của bạn và mã số để bắt đầu đánh giá. Mã số từ TL01 đến TL120.
+                </div>
+
+                <div class="error-message" id="error-message"></div>
+
+                <div class="form-group">
+                    <label for="userName">Tên người thử:</label>
+                    <input type="text" id="userName" placeholder="Nhập tên của bạn">
+                </div>
+
+                <div class="form-group">
+                    <label for="userCode">Mã số người thử:</label>
+                    <input type="text" id="userCode" placeholder="Nhập mã số (TL01-TL120)" maxlength="5">
+                </div>
+
+                <button class="btn" onclick="startEvaluation()">Bắt đầu đánh giá</button>
+            </div>
+
+            <div id="evaluation-section" class="evaluation-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Mẫu 1 / 4</div>
+
+                <div class="sample-header">
+                    <h2 id="sample-title">Mẫu 1 - 456</h2>
+                    <p>Đánh giá các tiêu chí bên dưới từ 1 đến 100 điểm</p>
+                </div>
+
+                <div id="criteria-container">
+                    <!-- Criteria will be generated here -->
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn" onclick="previousSample()" id="prev-btn" disabled>⬅️ Mẫu trước</button>
+                    <button class="btn" onclick="nextSample()" id="next-btn">Mẫu tiếp theo ➡️</button>
+                </div>
+            </div>
+
+            <div class="completion-message" id="completion-message">
+                <h3>🎉 Hoàn thành đánh giá!</h3>
+                <p>Cảm ơn bạn đã tham gia đánh giá. Dữ liệu đã được lưu thành công.</p>
+                <button class="btn" onclick="exportToExcel()" style="margin-top: 15px;">📊 Xuất file Excel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Evaluation order pattern
+        const evaluationOrder = [
+            [456, 109, 897, 247],
+            [109, 897, 247, 456],
+            [897, 247, 456, 109],
+            [247, 456, 109, 897]
+        ];
+
+        // Sample criteria for evaluation
+        const criteriaList = [
+            "Màu sắc sản phẩm",
+            "Màu sắc lí tưởng",
+            "Hương sản phẩm",
+            "Hương sản phẩm lí tưởng",
+            "Vị ngọt",
+            "Vị ngọt lí tưởng",
+            "Vị chua",
+            "Vị chua lí tưởng",
+            "Vị đắng",
+            "Vị đắng lí tưởng",
+            "Vị chát",
+            "Vị chát lí tưởng",
+            "Hậu vị",
+            "Hậu vị lí tưởng"
+        ];
+
+        // Special criteria with different scale (1-9)
+        const specialCriteria = "Điểm yêu thích sản phẩm";
+
+        let currentUser = null;
+        let currentSample = 0;
+        let evaluationData = {};
+
+        // Function to scroll to top of page smoothly
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function startEvaluation() {
+            const userName = document.getElementById('userName').value.trim();
+            const userCode = document.getElementById('userCode').value.trim().toUpperCase();
+
+            if (!userName) {
+                showError('Vui lòng nhập tên người thử');
+                return;
+            }
+
+            if (!userCode) {
+                showError('Vui lòng nhập mã số người thử');
+                return;
+            }
+
+            // Validate user code format
+            const codeMatch = userCode.match(/^TL(\d{1,3})$/);
+            if (!codeMatch) {
+                showError('Mã số không đúng định dạng. Vui lòng nhập TL01-TL120');
+                return;
+            }
+
+            const codeNumber = parseInt(codeMatch[1]);
+            if (codeNumber < 1 || codeNumber > 120) {
+                showError('Mã số phải trong khoảng TL01-TL120');
+                return;
+            }
+
+            currentUser = {
+                name: userName,
+                code: userCode,
+                codeNumber: codeNumber
+            };
+
+            // Initialize evaluation data
+            evaluationData = {
+                user: currentUser,
+                samples: []
+            };
+
+            // Hide user info section and show evaluation section
+            document.getElementById('user-info-section').style.display = 'none';
+            document.getElementById('evaluation-section').style.display = 'block';
+
+            // Load first sample and scroll to top
+            loadSample();
+            scrollToTop();
+        }
+
+        function loadSample() {
+            const orderIndex = (currentUser.codeNumber - 1) % 4;
+            const sampleOrder = evaluationOrder[orderIndex];
+            const sampleId = sampleOrder[currentSample];
+
+            // Update sample title
+            document.getElementById('sample-title').textContent = `Mẫu ${currentSample + 1} - ${sampleId}`;
+
+            // Update progress
+            const progress = ((currentSample + 1) / 4) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = `Mẫu ${currentSample + 1} / 4`;
+
+            // Generate criteria
+            generateCriteria(sampleId);
+
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSample === 0;
+            document.getElementById('next-btn').textContent = currentSample === 3 ? 'Hoàn thành 🎯' : 'Mẫu tiếp theo ➡️';
+        }
+
+        function generateCriteria(sampleId) {
+            const container = document.getElementById('criteria-container');
+            container.innerHTML = '';
+
+            // Initialize sample data with default values if not exists
+            if (!evaluationData.samples[currentSample]) {
+                const orderIndex = (currentUser.codeNumber - 1) % 4;
+                const sampleOrder = evaluationOrder[orderIndex];
+                evaluationData.samples[currentSample] = {
+                    sampleId: sampleOrder[currentSample],
+                    sampleOrder: currentSample + 1
+                };
+                
+                // Set default values for all criteria
+                criteriaList.forEach(criteria => {
+                    evaluationData.samples[currentSample][criteria] = 50;
+                });
+            }
+
+            // Generate slider criteria (1-100)
+            criteriaList.forEach((criteria, index) => {
+                const criteriaDiv = document.createElement('div');
+                criteriaDiv.className = 'criteria-item';
+
+                const currentValue = evaluationData.samples[currentSample][criteria];
+
+                criteriaDiv.innerHTML = `
+                    <div class="criteria-label">${criteria}</div>
+                    <div class="slider-container">
+                        <div class="slider-value" id="value-${index}">${currentValue}</div>
+                        <input type="range" min="1" max="100" value="${currentValue}" 
+                               class="slider" id="slider-${index}" 
+                               oninput="updateSliderValue(${index}, this.value, '${criteria}')">
+                        <div class="slider-labels">
+                            <span>1 - Rất kém</span>
+                            <span>50 - Trung bình</span>
+                            <span>100 - Xuất sắc</span>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(criteriaDiv);
+            });
+
+            // Generate special criteria (1-9 scale)
+            const specialDiv = document.createElement('div');
+            specialDiv.className = 'criteria-item special-criteria';
+            
+            const currentSpecialValue = evaluationData.samples[currentSample]?.[specialCriteria] || null;
+            
+            specialDiv.innerHTML = `
+                <div class="criteria-label">${specialCriteria} <span class="required">*</span></div>
+                <div class="rating-scale">
+                    ${Array.from({length: 9}, (_, i) => i + 1).map(num => `
+                        <label class="rating-option">
+                            <input type="radio" name="special-rating-${currentSample}" value="${num}" 
+                                   ${currentSpecialValue === num ? 'checked' : ''}
+                                   onchange="updateSpecialRating(${num})">
+                            <span class="rating-number">${num}</span>
+                        </label>
+                    `).join('')}
+                </div>
+                <div class="rating-labels">
+                    <span>1 - Rất không thích</span>
+                    <span>5 - Trung bình</span>
+                    <span>9 - Rất thích</span>
+                </div>
+            `;
+
+            container.appendChild(specialDiv);
+        }
+
+        function updateSliderValue(index, value, criteria) {
+            document.getElementById(`value-${index}`).textContent = value;
+            
+            // Save data (sample should already exist with default values)
+            evaluationData.samples[currentSample][criteria] = parseInt(value);
+        }
+
+        function updateSpecialRating(value) {
+            // Save data (sample should already exist)
+            evaluationData.samples[currentSample][specialCriteria] = parseInt(value);
+        }
+
+        function previousSample() {
+            if (currentSample > 0) {
+                currentSample--;
+                loadSample();
+                // Scroll to top after loading previous sample
+                scrollToTop();
+            }
+        }
+
+        function nextSample() {
+            // Check if special rating is selected for current sample
+            const currentSpecialValue = evaluationData.samples[currentSample]?.[specialCriteria];
+            if (currentSpecialValue === null || currentSpecialValue === undefined) {
+                showError('Bạn cần đánh giá mục "Điểm yêu thích sản phẩm" trước khi tiếp tục');
+                
+                // Scroll to the special rating section and highlight it
+                const specialCriteriaElement = document.querySelector('.special-criteria');
+                if (specialCriteriaElement) {
+                    specialCriteriaElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    specialCriteriaElement.style.animation = 'pulse 2s ease-in-out';
+                }
+                
+                return;
+            }
+
+            if (currentSample < 3) {
+                currentSample++;
+                loadSample();
+                // Scroll to top after loading next sample
+                scrollToTop();
+            } else {
+                // Complete evaluation
+                completeEvaluation();
+            }
+        }
+
+        function completeEvaluation() {
+    sendToGoogleSheets();
+            document.getElementById('evaluation-section').style.display = 'none';
+            document.getElementById('completion-message').style.display = 'block';
+            // Scroll to top when showing completion message
+            scrollToTop();
+        }
+
+        function exportToExcel() {
+            const wb = XLSX.utils.book_new();
+            
+            // Create header row
+            const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu'];
+            criteriaList.forEach(criteria => {
+                headers.push(criteria);
+            });
+            headers.push(specialCriteria);
+
+            const data = [];
+            data.push(headers);
+
+            // Add data rows
+            evaluationData.samples.forEach(sample => {
+                const row = [
+                    evaluationData.user.name,
+                    evaluationData.user.code,
+                    sample.sampleOrder,
+                    sample.sampleId
+                ];
+                
+                criteriaList.forEach(criteria => {
+                    row.push(sample[criteria] || 50); // Default to 50 if somehow missing
+                });
+                
+                row.push(sample[specialCriteria] || ''); // Empty if not selected
+                
+                data.push(row);
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            
+            // Set column widths
+            const colWidths = [
+                { wch: 20 }, // Tên người thử
+                { wch: 12 }, // Mã số
+                { wch: 15 }, // Thứ tự mẫu
+                { wch: 12 }, // Mã mẫu
+                ...criteriaList.map(() => ({ wch: 20 })), // Criteria columns
+                { wch: 25 } // Special criteria
+            ];
+            ws['!cols'] = colWidths;
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Kết quả đánh giá');
+            
+            const filename = `Danh_gia_${evaluationData.user.code}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+            XLSX.writeFile(wb, filename);
+        }
+
+        // Format user code input
+        document.getElementById('userCode').addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase();
+            
+            // Remove any non-alphanumeric characters except TL
+            value = value.replace(/[^TL0-9]/g, '');
+            
+            // If user starts typing numbers without TL, add TL prefix
+            if (value.match(/^\d/)) {
+                value = 'TL' + value;
+            }
+            
+            // Ensure it starts with TL
+            if (value.length >= 2 && !value.startsWith('TL')) {
+                // If they typed something like 'T123', convert to 'TL123'
+                if (value.startsWith('T')) {
+                    value = 'TL' + value.slice(1);
+                } else {
+                    value = 'TL' + value;
+                }
+            }
+            
+            // Limit to TL + 3 digits max (TL120)
+            if (value.length > 5) {
+                value = value.slice(0, 5);
+            }
+            
+            e.target.value = value;
+        });
+
+        // Allow Enter key to start evaluation
+        document.getElementById('userCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startEvaluation();
+            }
+        });
+
+        document.getElementById('userName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startEvaluation();
+            }
+        });
+    
+function sendToGoogleSheets() {
+    const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria];
+    const rows = evaluationData.samples.map(sample => {
+        return [
+            evaluationData.user.name,
+            evaluationData.user.code,
+            sample.sampleOrder,
+            sample.sampleId,
+            ...criteriaList.map(criteria => sample[criteria] || 50),
+            sample[specialCriteria] || ''
+        ];
+    });
+
+    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            headers: headers,
+            rows: rows
+        })
+    });
+}
+
+
+</script>
+</body>
+</html>
