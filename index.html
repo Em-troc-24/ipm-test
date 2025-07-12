@@ -334,7 +334,14 @@
                 border-left-color: #FF6B6B;
             }
         }
-    </style>
+    
+input[type="password"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+</style>
 </head>
 <body>
     <div class="container">
@@ -359,6 +366,11 @@
                 <div class="form-group">
                     <label for="userCode">Mã số người thử:</label>
                     <input type="text" id="userCode" placeholder="Nhập mã số (TL01-TL120)" maxlength="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="userPassword">Mật khẩu:</label>
+                    <input type="password" id="userPassword" placeholder="Nhập mật khẩu" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s ease;">
                 </div>
 
                 <button class="btn" onclick="startEvaluation()">Bắt đầu đánh giá</button>
@@ -453,12 +465,21 @@
                 return;
             }
 
-            if (!userCode) {
+            
+    const userPassword = document.getElementById('userPassword').value.trim();
+
+    if (!userCode) {
                 showError('Vui lòng nhập mã số người thử');
                 return;
             }
 
-            // Validate user code format
+            
+    if (userPassword !== userCode) {
+        showError('Mật khẩu không đúng. Vui lòng thử lại.');
+        return;
+    }
+
+    // Validate user code format
             const codeMatch = userCode.match(/^TL(\d{1,3})$/);
             if (!codeMatch) {
                 showError('Mã số không đúng định dạng. Vui lòng nhập TL01-TL120');
@@ -634,7 +655,6 @@
         }
 
         function completeEvaluation() {
-    sendToGoogleSheets();
             document.getElementById('evaluation-section').style.display = 'none';
             document.getElementById('completion-message').style.display = 'block';
             // Scroll to top when showing completion message
@@ -664,7 +684,7 @@
                 ];
                 
                 criteriaList.forEach(criteria => {
-                    row.push(sample[criteria] || 50); //
+                    row.push(sample[criteria] || 50); // Default to 50 if somehow missing
                 });
                 
                 row.push(sample[specialCriteria] || ''); // Empty if not selected
@@ -733,34 +753,6 @@
                 startEvaluation();
             }
         });
-    
-function sendToGoogleSheets() {
-    const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria];
-    const rows = evaluationData.samples.map(sample => {
-        return [
-            evaluationData.user.name,
-            evaluationData.user.code,
-            sample.sampleOrder,
-            sample.sampleId,
-            ...criteriaList.map(criteria => sample[criteria] || 50),
-            sample[specialCriteria] || ''
-        ];
-    });
-
-    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            headers: headers,
-            rows: rows
-        })
-    });
-}
-
-
-</script>
+    </script>
 </body>
 </html>
