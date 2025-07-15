@@ -681,7 +681,16 @@ function goBackToUserInfo() {
             const sampleOrder = evaluationOrder[orderIndex];
             const sampleId = sampleOrder[currentSample];
 
-            // Update sample title
+            
+            // Add instruction at the top
+            const instructionContainer = document.getElementById('criteria-container');
+            const instructionDiv = document.createElement('div');
+            instructionDiv.className = 'info-box';
+            instructionDiv.style.marginBottom = '20px';
+            instructionDiv.textContent = 'Viết hướng dẫn vào đây';
+            instructionContainer.innerHTML = ''; // clear first
+            instructionContainer.appendChild(instructionDiv);
+            
             document.getElementById('sample-title').textContent = `Mẫu ${currentSample + 1} - ${sampleId}`;
 
             // Update progress
@@ -1107,6 +1116,24 @@ function submitRanking() {
     document.getElementById("ranking-error").textContent = "";
     showThankYou();
 }
+
+// Send ranking data to Google Sheets
+    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            headers: ['Tên người thử', 'Mã số', 'Mã mẫu', 'Điểm xếp hạng'],
+            rows: evaluationData.ranking.map(r => [
+                evaluationData.user.name,
+                evaluationData.user.code,
+                r.sampleId,
+                r.score
+            ])
+        })
+    });
 </script>
 </body>
 </html>
