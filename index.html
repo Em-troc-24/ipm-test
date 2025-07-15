@@ -395,7 +395,7 @@ function goBackToUserInfo() {
 <body>
 <div class="container">
 <div class="header">
-<h1> Form Đánh Giá Mẫu</h1>
+<h1>🔬 Form Đánh Giá Mẫu</h1>
 <p>Hệ thống đánh giá chuyên nghiệp</p>
 </div>
 <div class="content">
@@ -435,7 +435,7 @@ function goBackToUserInfo() {
 </div>
 </div>
 <div class="completion-message" id="completion-message" style="display: none;">
-<h3> Hoàn thành đánh giá!</h3>
+<h3>🎉 Hoàn thành đánh giá!</h3>
 <p>Cảm ơn bạn đã tham gia đánh giá. Dữ liệu đã được lưu thành công.</p>
 </div>
 <div id="ranking-section" style="display: none;">
@@ -1011,7 +1011,7 @@ function saveRanking() {
         });
     
 function sendToGoogleSheets() {
-    const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria];
+    const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng tổng thể'];
     const rows = evaluationData.samples.map(sample => {
         return [
             evaluationData.user.name,
@@ -1134,6 +1134,18 @@ function submitRanking() {
             ])
         })
     });
+
+
+    // Gán điểm xếp hạng vào từng mẫu trong evaluationData.samples
+    evaluationData.ranking.forEach(rankItem => {
+        const sample = evaluationData.samples.find(s => s.sampleId == rankItem.sampleId);
+        if (sample) {
+            sample['Điểm xếp hạng tổng thể'] = rankItem.score;
+        }
+    });
+
+    // Gửi lại toàn bộ lên Google Sheets qua hàm sendToGoogleSheets
+    sendToGoogleSheets();
 </script>
 </body>
 </html>
