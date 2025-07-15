@@ -1,31 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Form Đánh Giá Mẫu</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
-function goBackToUserInfo() {
-    if (confirm('Bạn có chắc chắn muốn quay lại để sửa mã số? Dữ liệu đánh giá hiện tại sẽ bị xóa.')) {
-        currentUser = null;
-        currentSample = 0;
-        evaluationData = {};
-
-        document.getElementById('evaluation-section').style.display = 'none';
-        document.getElementById('completion-message').style.display = 'none';
-        document.getElementById('user-info-section').style.display = 'block';
-
-        // Reset input fields
-        document.getElementById('userName').value = '';
-        document.getElementById('userCode').value = '';
-
-        showRankingSection();
-    scrollToTop();
-    }
-}
-
-</script>
 <style>
         * {
             margin: 0;
@@ -334,62 +312,29 @@ function goBackToUserInfo() {
             color: #1976d2;
         }
 
-        /* Smooth scroll behavior */
         html {
             scroll-behavior: smooth;
         }
 
-        
-#ranking-list li {
-    background: #f0f0f0;
-    margin: 8px 0;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: move;
-    border: 2px solid #ddd;
-    font-weight: bold;
-}
-#ranking-list li.dragging {
-    opacity: 0.5;
-}
-
-
-/* Pulse animation for highlighting required fields */
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                border-left-color: #FF6B6B;
-            }
-            50% {
-                box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
-                border-left-color: #FF3333;
-                transform: scale(1.02);
-            }
-            100% {
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                border-left-color: #FF6B6B;
-            }
+        #ranking-table input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transform: scale(1.3);
+            margin: 4px;
         }
-    
-#ranking-table input[type="radio"] {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    transform: scale(1.3);
-    margin: 4px;
-}
 
-#ranking-table td {
-    text-align: center;
-    padding: 10px;
-    vertical-align: middle;
-}
+        #ranking-table td {
+            text-align: center;
+            padding: 10px;
+            vertical-align: middle;
+        }
 
-#ranking-table th {
-    padding: 12px;
-    font-size: 16px;
-    text-align: center;
-}
+        #ranking-table th {
+            padding: 12px;
+            font-size: 16px;
+            text-align: center;
+        }
 </style>
 </head>
 <body>
@@ -466,123 +411,7 @@ function goBackToUserInfo() {
             [456, 109, 897, 247],
             [109, 897, 247, 456],
             [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456],
-            [456, 109, 897, 247],
-            [109, 897, 247, 456],
-            [897, 247, 456, 109],
-            [247, 456, 109, 897],
-            [456, 897, 109, 247],
-            [247, 109, 897, 456]
+            [247, 456, 109, 897]
         ];
 
         // Sample criteria for evaluation
@@ -610,7 +439,6 @@ function goBackToUserInfo() {
         let currentSample = 0;
         let evaluationData = {};
 
-        // Function to scroll to top of page smoothly
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -641,7 +469,6 @@ function goBackToUserInfo() {
                 return;
             }
 
-            // Validate user code format
             const codeMatch = userCode.match(/^TL(\d{1,3})$/);
             if (!codeMatch) {
                 showError('Mã số không đúng định dạng. Vui lòng nhập TL01-TL120');
@@ -660,20 +487,16 @@ function goBackToUserInfo() {
                 codeNumber: codeNumber
             };
 
-            // Initialize evaluation data
             evaluationData = {
                 user: currentUser,
                 samples: []
             };
 
-            // Hide user info section and show evaluation section
             document.getElementById('user-info-section').style.display = 'none';
             document.getElementById('evaluation-section').style.display = 'block';
 
-            // Load first sample and scroll to top
             loadSample();
-            showRankingSection();
-    scrollToTop();
+            scrollToTop();
         }
 
         function loadSample() {
@@ -681,36 +504,22 @@ function goBackToUserInfo() {
             const sampleOrder = evaluationOrder[orderIndex];
             const sampleId = sampleOrder[currentSample];
 
-            
-            // Add instruction at the top
-            const instructionContainer = document.getElementById('criteria-container');
-            const instructionDiv = document.createElement('div');
-            instructionDiv.className = 'info-box';
-            instructionDiv.style.marginBottom = '20px';
-            instructionDiv.textContent = 'Viết hướng dẫn vào đây';
-            instructionContainer.innerHTML = ''; // clear first
-            instructionContainer.appendChild(instructionDiv);
-            
             document.getElementById('sample-title').textContent = `Mẫu ${currentSample + 1} - ${sampleId}`;
 
-            // Update progress
             const progress = ((currentSample + 1) / 4) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
             document.getElementById('progress-text').textContent = `Mẫu ${currentSample + 1} / 4`;
 
-            // Generate criteria
             generateCriteria(sampleId);
 
-            // Update button states
             document.getElementById('prev-btn').disabled = currentSample === 0;
-            document.getElementById('next-btn').textContent = 'Tiếp theo ➡️';
+            document.getElementById('next-btn').textContent = currentSample === 3 ? 'Hoàn thành' : 'Tiếp theo ➡️';
         }
 
         function generateCriteria(sampleId) {
             const container = document.getElementById('criteria-container');
             container.innerHTML = '';
 
-            // Initialize sample data with default values if not exists
             if (!evaluationData.samples[currentSample]) {
                 const orderIndex = (currentUser.codeNumber - 1) % 4;
                 const sampleOrder = evaluationOrder[orderIndex];
@@ -719,13 +528,11 @@ function goBackToUserInfo() {
                     sampleOrder: currentSample + 1
                 };
                 
-                // Set default values for all criteria
                 criteriaList.forEach(criteria => {
                     evaluationData.samples[currentSample][criteria] = 0;
                 });
             }
 
-            // Generate slider criteria (1-100)
             criteriaList.forEach((criteria, index) => {
                 const criteriaDiv = document.createElement('div');
                 criteriaDiv.className = 'criteria-item';
@@ -750,7 +557,6 @@ function goBackToUserInfo() {
                 container.appendChild(criteriaDiv);
             });
 
-            // Generate special criteria (1-9 scale)
             const specialDiv = document.createElement('div');
             specialDiv.className = 'criteria-item special-criteria';
             
@@ -780,13 +586,10 @@ function goBackToUserInfo() {
 
         function updateSliderValue(index, value, criteria) {
             document.getElementById(`value-${index}`).textContent = value;
-            
-            // Save data (sample should already exist with default values)
             evaluationData.samples[currentSample][criteria] = parseInt(value);
         }
 
         function updateSpecialRating(value) {
-            // Save data (sample should already exist)
             evaluationData.samples[currentSample][specialCriteria] = parseInt(value);
         }
 
@@ -794,19 +597,15 @@ function goBackToUserInfo() {
             if (currentSample > 0) {
                 currentSample--;
                 loadSample();
-                // Scroll to top after loading previous sample
-                showRankingSection();
-    scrollToTop();
+                scrollToTop();
             }
         }
 
         function nextSample() {
-            // Check if special rating is selected for current sample
             const currentSpecialValue = evaluationData.samples[currentSample]?.[specialCriteria];
             if (currentSpecialValue === null || currentSpecialValue === undefined) {
                 showError('Bạn cần đánh giá mục "Điểm yêu thích sản phẩm" trước khi tiếp tục');
                 
-                // Scroll to the special rating section and highlight it
                 const specialCriteriaElement = document.querySelector('.special-criteria');
                 if (specialCriteriaElement) {
                     specialCriteriaElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -819,89 +618,28 @@ function goBackToUserInfo() {
             if (currentSample < 3) {
                 currentSample++;
                 loadSample();
-                // Scroll to top after loading next sample
-                showRankingSection();
-    scrollToTop();
+                scrollToTop();
             } else {
-                // Complete evaluation
                 completeEvaluation();
             }
         }
 
         function completeEvaluation() {
-    sendToGoogleSheets();
             document.getElementById('evaluation-section').style.display = 'none';
-            document.getElementById('completion-message').style.display = 'block';
-            // Scroll to top when showing completion message
+            document.getElementById('ranking-section').style.display = 'block';
             showRankingSection();
-    scrollToTop();
+            scrollToTop();
         }
 
-        function exportToExcel() {
-            const wb = XLSX.utils.book_new();
-            
-            // Create header row
-            const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu'];
-            criteriaList.forEach(criteria => {
-                headers.push(criteria);
-            });
-            headers.push(specialCriteria);
-
-            const data = [];
-            data.push(headers);
-
-            // Add data rows
-            evaluationData.samples.forEach(sample => {
-                const row = [
-                    evaluationData.user.name,
-                    evaluationData.user.code,
-                    sample.sampleOrder,
-                    sample.sampleId
-                ];
-                
-                criteriaList.forEach(criteria => {
-                    row.push(sample[criteria] || 0); // Default to 50 if somehow missing
-                });
-                
-                row.push(sample[specialCriteria] || ''); // Empty if not selected
-                
-                data.push(row);
-            });
-
-            const ws = XLSX.utils.aoa_to_sheet(data);
-            
-            // Set column widths
-            const colWidths = [
-                { wch: 20 }, // Tên người thử
-                { wch: 12 }, // Mã số
-                { wch: 15 }, // Thứ tự mẫu
-                { wch: 12 }, // Mã mẫu
-                ...criteriaList.map(() => ({ wch: 20 })), // Criteria columns
-                { wch: 25 } // Special criteria
-            ];
-            ws['!cols'] = colWidths;
-
-            XLSX.utils.book_append_sheet(wb, ws, 'Kết quả đánh giá');
-            
-            const filename = `Danh_gia_${evaluationData.user.code}_${new Date().toISOString().slice(0, 10)}.xlsx`;
-            XLSX.writeFile(wb, filename);
-        }
-
-        // Format user code input
         document.getElementById('userCode').addEventListener('input', function(e) {
             let value = e.target.value.toUpperCase();
-            
-            // Remove any non-alphanumeric characters except TL
             value = value.replace(/[^TL0-9]/g, '');
             
-            // If user starts typing numbers without TL, add TL prefix
             if (value.match(/^\d/)) {
                 value = 'TL' + value;
             }
             
-            // Ensure it starts with TL
             if (value.length >= 2 && !value.startsWith('TL')) {
-                // If they typed something like 'T123', convert to 'TL123'
                 if (value.startsWith('T')) {
                     value = 'TL' + value.slice(1);
                 } else {
@@ -909,7 +647,6 @@ function goBackToUserInfo() {
                 }
             }
             
-            // Limit to TL + 3 digits max (TL120)
             if (value.length > 5) {
                 value = value.slice(0, 5);
             }
@@ -917,87 +654,99 @@ function goBackToUserInfo() {
             e.target.value = value;
         });
 
-        
-function showRankingSection() {
-    const list = document.getElementById("ranking-list");
-    list.innerHTML = '';
-    evaluationData.samples.forEach(sample => {
-        const li = document.createElement("li");
-        li.setAttribute("draggable", "true");
-        li.setAttribute("data-sample-id", sample.sampleId);
-        li.textContent = `Mẫu ${sample.sampleOrder} - ${sample.sampleId}`;
-        list.appendChild(li);
-    });
-    enableDragAndDrop();
-}
+        function showRankingSection() {
+            const tableBody = document.querySelector("#ranking-table tbody");
+            tableBody.innerHTML = "";
+            const usedSamples = evaluationData.samples;
 
-function enableDragAndDrop() {
-    const items = document.querySelectorAll("#ranking-list li");
-
-    items.forEach(item => {
-        item.addEventListener("dragstart", () => {
-            item.classList.add("dragging");
-        });
-
-        item.addEventListener("dragend", () => {
-            item.classList.remove("dragging");
-        });
-    });
-
-    const list = document.getElementById("ranking-list");
-    list.addEventListener("dragover", e => {
-        e.preventDefault();
-        const draggingItem = document.querySelector(".dragging");
-        const afterElement = getDragAfterElement(list, e.clientY);
-        if (afterElement == null) {
-            list.appendChild(draggingItem);
-        } else {
-            list.insertBefore(draggingItem, afterElement);
+            usedSamples.forEach((sample, index) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="padding: 8px;">Mẫu ${sample.sampleOrder} - ${sample.sampleId}</td>
+                    ${[1, 2, 3, 4].map(score => `
+                        <td style="text-align: center;">
+                            <input type="radio" name="rank-${index}" value="${score}" />
+                        </td>
+                    `).join("")}
+                `;
+                tableBody.appendChild(tr);
+            });
         }
-    });
-}
 
-function getDragAfterElement(container, y) {
-    const items = [...container.querySelectorAll("li:not(.dragging)")];
+        function submitRanking() {
+            const radios = document.querySelectorAll("#ranking-table input[type='radio']:checked");
+            if (radios.length !== 4) {
+                document.getElementById("ranking-error").textContent = "⚠️ Vui lòng chấm điểm đầy đủ cho cả 4 mẫu.";
+                return;
+            }
 
-    return items.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset, element: child };
-        } else {
-            return closest;
+            const selectedScores = Array.from(radios).map(r => parseInt(r.value));
+            const uniqueScores = new Set(selectedScores);
+            if (uniqueScores.size !== 4) {
+                document.getElementById("ranking-error").textContent = "⚠️ Mỗi điểm từ 1 đến 4 chỉ được dùng một lần.";
+                return;
+            }
+
+            radios.forEach((radio, idx) => {
+                evaluationData.samples[idx].rankingScore = parseInt(radio.value);
+            });
+
+            document.getElementById("ranking-error").textContent = "";
+            sendToGoogleSheets();
+            showThankYou();
         }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
-}
 
-function saveRanking() {
-    const items = document.querySelectorAll("#ranking-list li");
-    evaluationData.ranking = [];
-    items.forEach((item, index) => {
-        evaluationData.ranking.push({
-            sampleId: item.getAttribute("data-sample-id"),
-            rank: index + 1
-        });
-    });
+        function sendToGoogleSheets() {
+            const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng'];
+            const rows = evaluationData.samples.map(sample => {
+                return [
+                    evaluationData.user.name,
+                    evaluationData.user.code,
+                    sample.sampleOrder,
+                    sample.sampleId,
+                    ...criteriaList.map(criteria => sample[criteria] || 50),
+                    sample[specialCriteria] || '',
+                    sample.rankingScore || ''
+                ];
+            });
 
-    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            headers: ['Tên người thử', 'Mã số', 'Thứ hạng', 'Mã mẫu'],
-            rows: evaluationData.ranking.map(r => [evaluationData.user.name, evaluationData.user.code, r.rank, r.sampleId])
-        })
-    });
+            fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    headers: headers,
+                    rows: rows
+                })
+            });
+        }
 
-    document.getElementById('ranking-confirmation').textContent = "✅ Đã lưu xếp hạng!";
-}
+        function showThankYou() {
+            document.getElementById('ranking-section').style.display = 'none';
+            document.getElementById('completion-message').style.display = 'block';
+            scrollToTop();
+        }
 
+        function goBackToUserInfo() {
+            if (confirm('Bạn có chắc chắn muốn quay lại để sửa mã số? Dữ liệu đánh giá hiện tại sẽ bị xóa.')) {
+                currentUser = null;
+                currentSample = 0;
+                evaluationData = {};
 
-// Allow Enter key to start evaluation
+                document.getElementById('evaluation-section').style.display = 'none';
+                document.getElementById('completion-message').style.display = 'none';
+                document.getElementById('ranking-section').style.display = 'none';
+                document.getElementById('user-info-section').style.display = 'block';
+
+                document.getElementById('userName').value = '';
+                document.getElementById('userCode').value = '';
+
+                scrollToTop();
+            }
+        }
+
         document.getElementById('userCode').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 startEvaluation();
@@ -1009,182 +758,6 @@ function saveRanking() {
                 startEvaluation();
             }
         });
-    
-
-function sendToGoogleSheets() {
-    const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng tổng thể'];
-    const rows = evaluationData.samples.map(sample => {
-        return [
-            evaluationData.user.name,
-            evaluationData.user.code,
-            sample.sampleOrder,
-            sample.sampleId,
-            ...criteriaList.map(criteria => sample[criteria] || 50),
-            sample[specialCriteria] || '',
-            sample['Điểm xếp hạng tổng thể'] || ''
-        ];
-    });
-
-    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            headers: headers,
-            rows: rows
-        })
-    });
-}
-
-    const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng tổng thể'];
-    const rows = evaluationData.samples.map(sample => {
-        return [
-            evaluationData.user.name,
-            evaluationData.user.code,
-            sample.sampleOrder,
-            sample.sampleId,
-            ...criteriaList.map(criteria => sample[criteria] || 50),
-            sample[specialCriteria] || ''
-        ];
-    });
-
-    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            headers: headers,
-            rows: rows
-        })
-    });
-
-
-function goBackToUserInfo() {
-    if (confirm('Bạn có chắc chắn muốn quay lại để sửa mã số? Dữ liệu đánh giá hiện tại sẽ bị xóa.')) {
-        currentUser = null;
-        currentSample = 0;
-        evaluationData = {};
-
-        document.getElementById('evaluation-section').style.display = 'none';
-        document.getElementById('completion-message').style.display = 'none';
-        document.getElementById('user-info-section').style.display = 'block';
-
-        // Reset input fields
-        document.getElementById('userName').value = '';
-        document.getElementById('userCode').value = '';
-
-        showRankingSection();
-    scrollToTop();
-    }
-}
-
-
-function completeEvaluation() {
-    sendToGoogleSheets();
-    document.getElementById('evaluation-section').style.display = 'none';
-    document.getElementById('ranking-section').style.display = 'block';
-    scrollToTop();
-}
-
-function showThankYou() {
-    document.getElementById('ranking-section').style.display = 'none';
-    document.getElementById('completion-message').style.display = 'block';
-    scrollToTop();
-}
-
-function showRankingSection() {
-    const tableBody = document.querySelector("#ranking-table tbody");
-    tableBody.innerHTML = "";
-    const usedSamples = evaluationData.samples;
-
-    usedSamples.forEach((sample, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td style="padding: 8px;">Mẫu ${sample.sampleOrder} - ${sample.sampleId}</td>
-            ${[1, 2, 3, 4].map(score => `
-                <td style="text-align: center;">
-                    <input type="radio" name="rank-${index}" value="${score}" />
-                </td>
-            `).join("")}
-        `;
-        tableBody.appendChild(tr);
-    });
-}
-
-function submitRanking() {
-    const radios = document.querySelectorAll("#ranking-table input[type='radio']:checked");
-    if (radios.length !== 4) {
-        document.getElementById("ranking-error").textContent = "⚠️ Vui lòng chấm điểm đầy đủ cho cả 4 mẫu.";
-        return;
-    }
-
-    const selectedScores = Array.from(radios).map(r => parseInt(r.value));
-    const uniqueScores = new Set(selectedScores);
-    if (uniqueScores.size !== 4) {
-        document.getElementById("ranking-error").textContent = "⚠️ Mỗi điểm từ 1 đến 4 chỉ được dùng một lần.";
-        return;
-    }
-
-    evaluationData.ranking = [];
-    radios.forEach((radio, idx) => {
-        const sample = evaluationData.samples[idx];
-        evaluationData.ranking.push({ sampleId: sample.sampleId, rawRank: parseInt(radio.value) });
-    });
-
-    document.getElementById("ranking-error").textContent = "";
-    showThankYou();
-}
-
-// Send ranking data to Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            headers: ['Tên người thử', 'Mã số', 'Mã mẫu', 'Điểm xếp hạng'],
-            rows: evaluationData.ranking.map(r => [
-                evaluationData.user.name,
-                evaluationData.user.code,
-                r.sampleId,
-                r.score
-            ])
-        })
-    });
-
-
-    // Gán điểm xếp hạng vào từng mẫu trong evaluationData.samples
-    evaluationData.ranking.forEach(rankItem => {
-        const sample = evaluationData.samples.find(s => s.sampleId == rankItem.sampleId);
-        if (sample) {
-            sample['Điểm xếp hạng tổng thể'] = rankItem.score;
-        }
-    });
-
-    // Gửi lại toàn bộ lên Google Sheets qua hàm sendToGoogleSheets
-    sendToGoogleSheets();
-
-
-    // Đảo điểm: điểm 1 = 4, 2 = 3, 3 = 2, 4 = 1
-    evaluationData.ranking.forEach(r => {
-        r.score = 5 - r.rawRank; // 1 → 4, 2 → 3, 3 → 2, 4 → 1
-    });
-
-    // Gán điểm xếp hạng vào từng mẫu trong evaluationData.samples
-    evaluationData.ranking.forEach(rankItem => {
-        const sample = evaluationData.samples.find(s => s.sampleId == rankItem.sampleId);
-        if (sample) {
-            sample['Điểm xếp hạng tổng thể'] = rankItem.score;
-        }
-    });
-
-    // Gửi cùng dữ liệu đánh giá
-    sendToGoogleSheets();
 </script>
 </body>
 </html>
