@@ -1061,6 +1061,7 @@ function sendToGoogleSheets() {
             rows: rows
         })
     });
+}
 
 
 
@@ -1133,10 +1134,7 @@ function submitRanking() {
     evaluationData.ranking = [];
     radios.forEach((radio, idx) => {
         const sample = evaluationData.samples[idx];
-        evaluationData.ranking.push({
-            sampleId: sample.sampleId,
-            score: parseInt(radio.value)
-        });
+        evaluationData.ranking.push({ sampleId: sample.sampleId, rawRank: parseInt(radio.value) });
     });
 
     document.getElementById("ranking-error").textContent = "";
@@ -1171,6 +1169,23 @@ function submitRanking() {
     });
 
     // Gửi lại toàn bộ lên Google Sheets qua hàm sendToGoogleSheets
+    sendToGoogleSheets();
+
+
+    // Đảo điểm: điểm 1 = 4, 2 = 3, 3 = 2, 4 = 1
+    evaluationData.ranking.forEach(r => {
+        r.score = 5 - r.rawRank; // 1 → 4, 2 → 3, 3 → 2, 4 → 1
+    });
+
+    // Gán điểm xếp hạng vào từng mẫu trong evaluationData.samples
+    evaluationData.ranking.forEach(rankItem => {
+        const sample = evaluationData.samples.find(s => s.sampleId == rankItem.sampleId);
+        if (sample) {
+            sample['Điểm xếp hạng tổng thể'] = rankItem.score;
+        }
+    });
+
+    // Gửi cùng dữ liệu đánh giá
     sendToGoogleSheets();
 </script>
 </body>
