@@ -1010,7 +1010,34 @@ function saveRanking() {
             }
         });
     
+
 function sendToGoogleSheets() {
+    const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng tổng thể'];
+    const rows = evaluationData.samples.map(sample => {
+        return [
+            evaluationData.user.name,
+            evaluationData.user.code,
+            sample.sampleOrder,
+            sample.sampleId,
+            ...criteriaList.map(criteria => sample[criteria] || 50),
+            sample[specialCriteria] || '',
+            sample['Điểm xếp hạng tổng thể'] || ''
+        ];
+    });
+
+    fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            headers: headers,
+            rows: rows
+        })
+    });
+}
+
     const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng tổng thể'];
     const rows = evaluationData.samples.map(sample => {
         return [
@@ -1034,7 +1061,6 @@ function sendToGoogleSheets() {
             rows: rows
         })
     });
-}
 
 
 
