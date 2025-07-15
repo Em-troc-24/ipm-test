@@ -94,7 +94,7 @@
             transform: none;
         }
 
-        .evaluation-section {
+        .evaluation-section, #instruction-section {
             display: none;
             animation: fadeIn 0.5s ease;
         }
@@ -335,6 +335,18 @@
             font-size: 16px;
             text-align: center;
         }
+
+        /* Thêm style cho trang hướng dẫn */
+        #instruction-section .info-box {
+            padding: 25px;
+        }
+        #instruction-section ol {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        #instruction-section li {
+            margin-bottom: 10px;
+        }
 </style>
 </head>
 <body>
@@ -345,27 +357,6 @@
 </div>
 <div class="content">
 <div id="user-info-section">
-<div id="instruction-section" style="display: none;">
-  <div class="info-box">
-    <h3 style="text-align: center; margin-bottom: 15px;">HƯỚNG DẪN ĐÁNH GIÁ</h3>
-    <p><strong>Quy trình đánh giá:</strong></p>
-    <ol>
-      <li>Có tổng cộng <strong>4 mẫu</strong> cần đánh giá</li>
-      <li>Mỗi mẫu sẽ được đánh giá trên các tiêu chí về màu sắc, hương vị</li>
-      <li>Đánh giá từ 1-100 điểm cho các tiêu chí thông thường</li>
-      <li>Đánh giá từ 1-9 điểm cho mức độ yêu thích</li>
-      <li>Cuối cùng, xếp hạng 4 mẫu từ 1-4 (1: không thích nhất, 4: thích nhất)</li>
-    </ol>
-    <p style="text-align: center; margin-top: 20px;">
-      <img src="https://via.placeholder.com/400x200?text=Hinh+huong+dan" 
-           style="max-width: 100%; border-radius: 8px;" 
-           alt="Hình minh họa 4 mẫu sản phẩm">
-    </p>
-  </div>
-  <div style="text-align: center; margin-top: 30px;">
-    <button class="btn" onclick="startEvaluationAfterInstruction()">Bắt đầu đánh giá</button>
-  </div>
-</div>
 <div class="info-box">
 <strong>Hướng dẫn:</strong> Nhập thông tin của bạn và mã số để bắt đầu đánh giá. Mã số từ TL01 đến TL120.
                 </div>
@@ -380,6 +371,30 @@
 </div>
 <button class="btn" onclick="startEvaluation()">Bắt đầu đánh giá</button>
 </div>
+
+<!-- Thêm phần hướng dẫn mới -->
+<div id="instruction-section">
+  <div class="info-box">
+    <h3 style="text-align: center; margin-bottom: 15px;">HƯỚNG DẪN ĐÁNH GIÁ</h3>
+    <p><strong>Quy trình đánh giá:</strong></p>
+    <ol>
+      <li>Có tổng cộng <strong>4 mẫu</strong> cần đánh giá</li>
+      <li>Mỗi mẫu sẽ được đánh giá trên các tiêu chí về màu sắc, hương vị</li>
+      <li>Đánh giá từ 1-100 điểm cho các tiêu chí thông thường</li>
+      <li>Đánh giá từ 1-9 điểm cho mức độ yêu thích</li>
+      <li>Cuối cùng, xếp hạng 4 mẫu từ 1-4 (1: không thích nhất, 4: thích nhất)</li>
+    </ol>
+    <p style="text-align: center; margin-top: 20px;">
+      <img src="https://via.placeholder.com/400x200?text=Mẫu+1+Mẫu+2+Mẫu+3+Mẫu+4" 
+           style="max-width: 100%; border-radius: 8px;" 
+           alt="Hình minh họa 4 mẫu sản phẩm">
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 30px;">
+    <button class="btn" onclick="startEvaluationAfterInstruction()">Bắt đầu đánh giá</button>
+  </div>
+</div>
+
 <div class="evaluation-section" id="evaluation-section">
 <div style="text-align: left; margin-bottom: 20px;">
 <button class="btn" onclick="goBackToUserInfo()">🔁 Quay lại</button>
@@ -508,14 +523,24 @@
                 codeNumber: codeNumber
             };
 
+            // Hiển thị trang hướng dẫn thay vì vào đánh giá ngay
+            document.getElementById('user-info-section').style.display = 'none';
+            document.getElementById('instruction-section').style.display = 'block';
+            scrollToTop();
+        }
+
+        function startEvaluationAfterInstruction() {
+            // Khởi tạo dữ liệu đánh giá
             evaluationData = {
                 user: currentUser,
                 samples: []
             };
 
-            document.getElementById('user-info-section').style.display = 'none';
+            // Ẩn hướng dẫn, hiển thị phần đánh giá
+            document.getElementById('instruction-section').style.display = 'none';
             document.getElementById('evaluation-section').style.display = 'block';
-
+            
+            // Load mẫu đầu tiên
             loadSample();
             scrollToTop();
         }
@@ -652,29 +677,6 @@
             scrollToTop();
         }
 
-        document.getElementById('userCode').addEventListener('input', function(e) {
-            let value = e.target.value.toUpperCase();
-            value = value.replace(/[^TL0-9]/g, '');
-            
-            if (value.match(/^\d/)) {
-                value = 'TL' + value;
-            }
-            
-            if (value.length >= 2 && !value.startsWith('TL')) {
-                if (value.startsWith('T')) {
-                    value = 'TL' + value.slice(1);
-                } else {
-                    value = 'TL' + value;
-                }
-            }
-            
-            if (value.length > 5) {
-                value = value.slice(0, 5);
-            }
-            
-            e.target.value = value;
-        });
-
         function showRankingSection() {
             const tableBody = document.querySelector("#ranking-table tbody");
             tableBody.innerHTML = "";
@@ -731,7 +733,7 @@
                 ];
             });
 
-            fetch("https://script.google.com/macros/s/AKfycbz5YNQtPbpl2vKig2HNenJqVrxpHnXuUXr6BrtiQwQ0EoAi1ydZii73ZV77PzmW8589sg/exec", {
+            fetch("https://script.google.com/macros/s/AKfycbym1vZ8ikd21fEwsy8EErfl8Lf5TpU18_8o34AOT8RoaouktO-LpC94TOPEj_MNyFg8iw/exec", {
                 method: "POST",
                 mode: "no-cors",
                 headers: {
@@ -759,6 +761,7 @@
                 document.getElementById('evaluation-section').style.display = 'none';
                 document.getElementById('completion-message').style.display = 'none';
                 document.getElementById('ranking-section').style.display = 'none';
+                document.getElementById('instruction-section').style.display = 'none';
                 document.getElementById('user-info-section').style.display = 'block';
 
                 document.getElementById('userName').value = '';
