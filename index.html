@@ -353,7 +353,7 @@
 <div class="container">
 <div class="header">
 <h1> Form Đánh Giá Mẫu</h1>
-<p>Hệ thống đánh giá chuyên nghiệp</p>
+<p> Hệ thống đánh giá chuyên nghiệp</p>
 </div>
 <div class="content">
 <div id="user-info-section">
@@ -419,7 +419,7 @@
 </div>
 </div>
 <div class="completion-message" id="completion-message" style="display: none;">
-<h3>🎉 Hoàn thành đánh giá!</h3>
+<h3> Hoàn thành đánh giá!</h3>
 <p>Cảm ơn bạn đã tham gia đánh giá. Dữ liệu đã được lưu thành công.</p>
 </div>
 <div id="ranking-section" style="display: none;">
@@ -711,9 +711,9 @@
                                class="slider" id="slider-${index}" 
                                oninput="updateSliderValue(${index}, this.value, '${criteria}')">
                         <div class="slider-labels">
-                            <span>1 - Rất kém</span>
+                            <span>1 - Rất ít</span>
                             <span>50 - Trung bình</span>
-                            <span>100 - Xuất sắc</span>
+                            <span>100 - Rất nhiều</span>
                         </div>
                     </div>
                 `;
@@ -817,14 +817,14 @@
         function submitRanking() {
             const radios = document.querySelectorAll("#ranking-table input[type='radio']:checked");
             if (radios.length !== 4) {
-                document.getElementById("ranking-error").textContent = "⚠️ Vui lòng chấm điểm đầy đủ cho cả 4 mẫu.";
+                document.getElementById("ranking-error").textContent = " Vui lòng chấm điểm đầy đủ cho cả 4 mẫu.";
                 return;
             }
 
             const selectedScores = Array.from(radios).map(r => parseInt(r.value));
             const uniqueScores = new Set(selectedScores);
             if (uniqueScores.size !== 4) {
-                document.getElementById("ranking-error").textContent = "⚠️ Mỗi điểm từ 1 đến 4 chỉ được dùng một lần.";
+                document.getElementById("ranking-error").textContent = " Mỗi điểm từ 1 đến 4 chỉ được dùng một lần.";
                 return;
             }
 
