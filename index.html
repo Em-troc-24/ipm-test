@@ -375,6 +375,35 @@
 </div> 
 <button class="btn" onclick="startEvaluation()">Bắt đầu đánh giá</button>
 </div>
+       <div id="demographic-section" style="display: none;">
+  <div class="info-box">
+    <strong>Vui lòng cung cấp thông tin nhân khẩu học</strong>
+  </div>
+
+  <div class="form-group">
+    <label for="userAge">Tuổi:</label>
+    <input id="userAge" type="number" placeholder="Nhập tuổi của bạn" min="10" max="100"/>
+  </div>
+
+  <div class="form-group">
+    <label for="userJob">Nghề nghiệp:</label>
+    <input id="userJob" type="text" placeholder="Nhập nghề nghiệp của bạn"/>
+  </div>
+
+  <div class="form-group">
+    <label for="userFrequency">Tần suất sử dụng nước tăng lực:</label>
+    <select id="userFrequency">
+      <option value="">-- Chọn một lựa chọn --</option>
+      <option>Hàng ngày</option>
+      <option>Vài lần mỗi tuần</option>
+      <option>Vài lần mỗi tháng</option>
+      <option>Hiếm khi</option>
+      <option>Chưa từng</option>
+    </select>
+  </div>
+
+  <button class="btn" onclick="submitDemographics()">Tiếp tục</button>
+</div>
 
 <!-- Thêm phần hướng dẫn mới -->
 <div id="instruction-section">
@@ -647,7 +676,7 @@
 
             // Hiển thị trang hướng dẫn thay vì vào đánh giá ngay
             document.getElementById('user-info-section').style.display = 'none';
-            document.getElementById('instruction-section').style.display = 'block';
+            document.getElementById('demographic-section').style.display = 'block';
             scrollToTop();
         }
 
@@ -892,7 +921,33 @@
                 scrollToTop();
             }
         }
+              
+       function submitDemographics() {
+  const age = document.getElementById("userAge").value.trim();
+  const job = document.getElementById("userJob").value.trim();
+  const frequency = document.getElementById("userFrequency").value;
 
+  if (!age || isNaN(age) || age < 10 || age > 100) {
+    showError("Vui lòng nhập tuổi hợp lệ (10-100)");
+    return;
+  }
+  if (!job) {
+    showError("Vui lòng nhập nghề nghiệp");
+    return;
+  }
+  if (!frequency) {
+    showError("Vui lòng chọn tần suất sử dụng nước tăng lực");
+    return;
+  }
+
+  currentUser.age = age;
+  currentUser.job = job;
+  currentUser.frequency = frequency;
+
+  document.getElementById('demographic-section').style.display = 'none';
+  document.getElementById('instruction-section').style.display = 'block';
+  scrollToTop();
+}
         document.getElementById('userCode').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 startEvaluation();
