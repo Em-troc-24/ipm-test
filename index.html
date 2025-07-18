@@ -643,14 +643,14 @@
         }
 
         function startEvaluation() {
-    const userName = document.getElementById('userName').value.trim();
-    const userCode = document.getElementById('userCode').value.trim().toUpperCase();
-    const userPassword = document.getElementById('userPassword').value.trim();
+           const userName = document.getElementById('userName').value.trim();
+           const userCode = document.getElementById('userCode').value.trim().toUpperCase();
+           const userPassword = document.getElementById('userPassword').value.trim();
 
-    if (!userName) {
-        showError('Vui lòng nhập tên người thử');
-        return;
-    }
+           if (!userName) {
+               showError('Vui lòng nhập tên người thử');
+               return;
+                  }
 
     if (!userCode) {
         showError('Vui lòng nhập mã số người thử');
@@ -678,7 +678,8 @@
         name: userName,
         code: userCode,
         codeNumber: codeNumber
-    };
+    }
+        };
 
     document.getElementById('user-info-section').style.display = 'none';
     document.getElementById('demographic-section').style.display = 'block';
