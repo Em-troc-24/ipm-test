@@ -250,22 +250,29 @@
         }
 
         .rating-scale {
-            display: flex;
-            justify-content: column;
-            margin: 20px 0;
-            gap: 10px;
+           display: flex;
+           flex-direction: column;
+           margin: 20px 0;
+           gap: 10px;
         }
 
         .rating-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 10px;
+    border-radius: 8px;
+    background: white;
+    border: 2px solid #ddd;
+    margin-bottom: 8px;
+}
 
-        .rating-option:hover {
-            transform: scale(1.1);
+.rating-option:hover {
+    transform: translateX(5px);
+    border-color: #4CAF50;
+    background: #f8fff8;
         }
 
         .rating-option input[type="radio"] {
@@ -273,26 +280,39 @@
         }
 
         .rating-number {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-            color: #666;
-            border: 2px solid #ddd;
-            transition: all 0.3s ease;
-        }
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #666;
+    border: 2px solid #ddd;
+    transition: all 0.3s ease;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
 
-        .rating-option input[type="radio"]:checked + .rating-number {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-            border-color: #4CAF50;
-            transform: scale(1.2);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+.rating-option input[type="radio"]:checked + .rating-number {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border-color: #4CAF50;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.rating-option input[type="radio"]:checked ~ .rating-text {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.rating-text {
+    font-size: 16px;
+    color: #666;
+    transition: all 0.3s ease;
         }
 
         .rating-labels {
@@ -769,21 +789,29 @@
             const currentSpecialValue = evaluationData.samples[currentSample]?.[specialCriteria] || null;
             
             specialDiv.innerHTML = `
-                <div class="criteria-label">${specialCriteria} <span class="required">*</span></div>
-                <div class="rating-scale">
-                    ${Array.from({length: 9}, (_, i) => i + 1).map(num => `
-                        <label class="rating-option">
-                            <input type="radio" name="special-rating-${currentSample}" value="${num}" 
-                                   ${currentSpecialValue === num ? 'checked' : ''}
-                                   onchange="updateSpecialRating(${num})">
-                            <span class="rating-number">${num}</span>
-                        </label>
-                    `).join('')}
-                </div>
-                <div class="rating-labels">
-                    <span>1 - Rất không thích</span>
-                    <span>5 - Trung bình</span>
-                    <span>9 - Rất thích</span>
+                 <div class="criteria-label">${specialCriteria} <span class="required">*</span></div>
+    <div class="rating-scale">
+        ${Array.from({length: 9}, (_, i) => i + 1).map(num => {
+            let text = '';
+            if (num === 1) text = 'Cực kỳ không thích';
+            else if (num === 2) text = 'Rất không thích';
+            else if (num === 3) text = 'Không thích';
+            else if (num === 4) text = 'Hơi không thích';
+            else if (num === 5) text = 'Trung bình';
+            else if (num === 6) text = 'Hơi thích';
+            else if (num === 7) text = 'Thích';
+            else if (num === 8) text = 'Rất thích';
+            else if (num === 9) text = 'Cực kỳ thích';
+            
+            return `
+            <label class="rating-option">
+                <input type="radio" name="special-rating-${currentSample}" value="${num}" 
+                       ${currentSpecialValue === num ? 'checked' : ''}
+                       onchange="updateSpecialRating(${num})">
+                <span class="rating-number">${num}</span>
+                <span class="rating-text">${text}</span>
+            </label>
+        `}).join('')}
                 </div>
             `;
 
