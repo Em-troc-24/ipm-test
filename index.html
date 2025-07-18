@@ -769,26 +769,43 @@
             
             const currentSpecialValue = evaluationData.samples[currentSample]?.[specialCriteria] || null;
             
-            specialDiv.innerHTML = `
-                <div class="criteria-label">${specialCriteria} <span class="required">*</span></div>
-                <div class="rating-scale">
-                    ${Array.from({length: 9}, (_, i) => i + 1).map(num => `
-                        <label class="rating-option">
-                            <input type="radio" name="special-rating-${currentSample}" value="${num}" 
-                                   ${currentSpecialValue === num ? 'checked' : ''}
-                                   onchange="updateSpecialRating(${num})">
-                            <span class="rating-number">${num}</span>
-                        </label>
-                    `).join('')}
-                </div>
-                <div class="rating-labels">
-                    <span>1 - Rất không thích</span>
-                    <span>5 - Trung bình</span>
-                    <span>9 - Rất thích</span>
-                </div>
-            `;
+            const descriptions = [
+  "Không thích chút nào",
+  "Rất không thích",
+  "Không thích",
+  "Hơi không thích",
+  "Bình thường",
+  "Hơi thích",
+  "Thích",
+  "Rất thích",
+  "Cực kỳ yêu thích, chắc chắn chọn"
+];
 
-            container.appendChild(specialDiv);
+specialDiv.innerHTML = `
+  <div class="criteria-label">${specialCriteria} <span class="required">*</span></div>
+  <table class="likeability-table">
+    <thead>
+      <tr>
+        <th>Chọn</th>
+        <th>Điểm</th>
+        <th>Mô tả</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${descriptions.map((desc, i) => `
+        <tr>
+          <td>
+            <input type="radio" name="special-rating-${currentSample}" value="${i + 1}"
+              ${currentSpecialValue === i + 1 ? 'checked' : ''}
+              onchange="updateSpecialRating(${i + 1})">
+          </td>
+          <td>${i + 1}</td>
+          <td>${desc}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+`;
         }
 
         function updateSliderValue(index, value, criteria) {
