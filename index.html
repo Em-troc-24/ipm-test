@@ -652,7 +652,7 @@
                return;
                   }
 
-    if (!userCode) {
+              if (!userCode) {
         showError('Vui lòng nhập mã số người thử');
         return;
     }
@@ -679,11 +679,11 @@
         code: userCode,
         codeNumber: codeNumber
     }
-        };
 
     document.getElementById('user-info-section').style.display = 'none';
     document.getElementById('demographic-section').style.display = 'block';
     scrollToTop();
+               };
        
        // Hiển thị trang hướng dẫn thay vì vào đánh giá ngay
             document.getElementById('user-info-section').style.display = 'none';
