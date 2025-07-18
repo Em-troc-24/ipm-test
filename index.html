@@ -85,6 +85,27 @@ input[type="password"]:focus, input[type="number"]:focus {
             border-color: #4CAF50;
             box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
         }
+       select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+select option {
+    padding: 10px;
+    font-size: 16px;
+}
 
         .btn {
             background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
