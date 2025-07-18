@@ -711,7 +711,7 @@
             const sampleOrder = evaluationOrder[orderIndex];
             const sampleId = sampleOrder[currentSample];
 
-            document.getElementById('sample-title').textContent = Mẫu ${currentSample + 1} - ${sampleId};
+            document.getElementById('sample-title').textContent = Mẫu${currentSample + 1} - ${sampleId};
 
             const progress = ((currentSample + 1) / 4) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
