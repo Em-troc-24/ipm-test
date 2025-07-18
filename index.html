@@ -251,8 +251,7 @@
 
         .rating-scale {
             display: flex;
-            flex-content: column;
-            align-items: flex-start;
+            justify-content: column;
             margin: 20px 0;
             gap: 10px;
         }
@@ -711,11 +710,11 @@
             const sampleOrder = evaluationOrder[orderIndex];
             const sampleId = sampleOrder[currentSample];
 
-            document.getElementById('sample-title').textContent = Mẫu${currentSample + 1} - ${sampleId};
+            document.getElementById('sample-title').textContent = `Mẫu ${currentSample + 1} - ${sampleId}`;
 
             const progress = ((currentSample + 1) / 4) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
-            document.getElementById('progress-text').textContent = Mẫu ${currentSample + 1} / 4;
+            document.getElementById('progress-text').textContent = `Mẫu ${currentSample + 1} / 4`;
 
             generateCriteria(sampleId);
 
@@ -746,7 +745,7 @@
 
                 const currentValue = evaluationData.samples[currentSample][criteria];
 
-                criteriaDiv.innerHTML = 
+                criteriaDiv.innerHTML = `
                     <div class="criteria-label">${criteria}</div>
                     <div class="slider-container">
                         <div class="slider-value" id="value-${index}">${currentValue}</div>
@@ -759,7 +758,7 @@
                             <span>100 - Rất nhiều</span>
                         </div>
                     </div>
-                ;
+                `;
 
                 container.appendChild(criteriaDiv);
             });
@@ -769,30 +768,30 @@
             
             const currentSpecialValue = evaluationData.samples[currentSample]?.[specialCriteria] || null;
             
-            specialDiv.innerHTML = 
+            specialDiv.innerHTML = `
                 <div class="criteria-label">${specialCriteria} <span class="required">*</span></div>
                 <div class="rating-scale">
-                    ${Array.from({length: 9}, (_, i) => i + 1).map(num => 
+                    ${Array.from({length: 9}, (_, i) => i + 1).map(num => `
                         <label class="rating-option">
                             <input type="radio" name="special-rating-${currentSample}" value="${num}" 
                                    ${currentSpecialValue === num ? 'checked' : ''}
                                    onchange="updateSpecialRating(${num})">
                             <span class="rating-number">${num}</span>
                         </label>
-                    ).join('')}
+                    `).join('')}
                 </div>
                 <div class="rating-labels">
                     <span>1 - Rất không thích</span>
                     <span>5 - Trung bình</span>
                     <span>9 - Rất thích</span>
                 </div>
-            ;
+            `;
 
             container.appendChild(specialDiv);
         }
 
         function updateSliderValue(index, value, criteria) {
-            document.getElementById(value-${index}).textContent = value;
+            document.getElementById(`value-${index}`).textContent = value;
             evaluationData.samples[currentSample][criteria] = parseInt(value);
         }
 
@@ -845,14 +844,14 @@
 
             usedSamples.forEach((sample, index) => {
                 const tr = document.createElement("tr");
-                tr.innerHTML = 
+                tr.innerHTML = `
                     <td style="padding: 8px;">Mẫu ${sample.sampleOrder} - ${sample.sampleId}</td>
-                    ${[1, 2, 3, 4].map(score => 
+                    ${[1, 2, 3, 4].map(score => `
                         <td style="text-align: center;">
                             <input type="radio" name="rank-${index}" value="${score}" />
                         </td>
-                    ).join("")}
-                ;
+                    `).join("")}
+                `;
                 tableBody.appendChild(tr);
             });
         }
