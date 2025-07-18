@@ -765,19 +765,31 @@
 
                 const currentValue = evaluationData.samples[currentSample][criteria];
 
-                criteriaDiv.innerHTML = `
-                    <div class="criteria-label">${criteria}</div>
-                    <div class="slider-container">
-                        <div class="slider-value" id="value-${index}">${currentValue}</div>
-                        <input type="range" min="1" max="100" value="${currentValue}" 
-                               class="slider" id="slider-${index}" 
-                               oninput="updateSliderValue(${index}, this.value, '${criteria}')">
-                        <div class="slider-labels">
-                            <span>1 - Rất ít</span>
-                            <span>50 - Vừa phải</span>
-                            <span>100 - Rất nhiều</span>
-                        </div>
-                    </div>
+                let leftLabel, rightLabel;
+if (criteria.toLowerCase().includes('màu')) {
+    leftLabel = "1 - Rất nhạt";
+    rightLabel = "100 - Rất đậm";
+} else if (criteria.toLowerCase().includes('hương')) {
+    leftLabel = "1 - Rất yếu";
+    rightLabel = "100 - Rất mạnh";
+} else {
+    leftLabel = "1 - Rất ít";
+    rightLabel = "100 - Rất nhiều";
+}
+
+criteriaDiv.innerHTML = `
+    <div class="criteria-label">${criteria}</div>
+    <div class="slider-container">
+        <div class="slider-value" id="value-${index}">${currentValue}</div>
+        <input type="range" min="1" max="100" value="${currentValue}" 
+               class="slider" id="slider-${index}" 
+               oninput="updateSliderValue(${index}, this.value, '${criteria}')">
+        <div class="slider-labels">
+            <span>${leftLabel}</span>
+            <span>50 - Vừa phải</span>
+            <span>${rightLabel}</span>
+        </div>
+    </div>
                 `;
 
                 container.appendChild(criteriaDiv);
