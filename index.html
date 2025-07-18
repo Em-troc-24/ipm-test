@@ -871,17 +871,20 @@
         }
 
         function sendToGoogleSheets() {
-            const headers = ['Tên người thử', 'Mã số', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng'];
+            const headers = ['Tên người thử', 'Mã số', 'Tuổi', 'Nghề nghiệp', 'Tần suất sử dụng', 'Thứ tự mẫu', 'Mã mẫu', ...criteriaList, specialCriteria, 'Điểm xếp hạng'];
             const rows = evaluationData.samples.map(sample => {
-                return [
-                    evaluationData.user.name,
-                    evaluationData.user.code,
-                    sample.sampleOrder,
-                    sample.sampleId,
-                    ...criteriaList.map(criteria => sample[criteria] || 50),
-                    sample[specialCriteria] || '',
-                    sample.rankingScore || ''
-                ];
+           return [
+               evaluationData.user.name,
+               evaluationData.user.code,
+               evaluationData.user.age,
+               evaluationData.user.job,
+               evaluationData.user.frequency,
+               sample.sampleOrder,
+               sample.sampleId,
+               ...criteriaList.map(criteria => sample[criteria] || 50),
+               sample[specialCriteria] || '',
+               sample.rankingScore || ''
+                  ];
             });
 
             fetch("https://script.google.com/macros/s/AKfycbxBlycSdetzc_mMzUeSD7RFUL6iXjaajInQwN1_0mzRkA08ZkTivUCof2HSnapmiYaVrQ/exec", {
