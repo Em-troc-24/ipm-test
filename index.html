@@ -657,7 +657,7 @@
         return;
     }
 
-    const CodeMatch = userCode.match(/^MTL(\d{3})$/);
+    const codeMatch = userCode.match(/^MTL(\d{3})$/);
     if (!codeMatch) {
         showError('Mã số không đúng định dạng. Vui lòng nhập MTL001-MTL120');
         return;
