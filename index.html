@@ -807,7 +807,8 @@ specialDiv.innerHTML = `
   </table>
 `;
         }
-
+            container.appendChild(specialDiv);
+       
         function updateSliderValue(index, value, criteria) {
             document.getElementById(`value-${index}`).textContent = value;
             evaluationData.samples[currentSample][criteria] = parseInt(value);
