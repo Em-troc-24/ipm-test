@@ -367,7 +367,7 @@
 </div>
 <div class="form-group">
 <label for="userCode">Mã số người thử:</label>
-<input id="userCode" maxlength="6" placeholder="Nhập mã số (MTL01-MTL120)" type="text"/>
+<input id="userCode" maxlength="6" placeholder="Nhập mã số (MTL001-MTL120)" type="text"/>
 </div>
 <div class="form-group">
 <label for="userPassword">Mật khẩu:</label>
@@ -670,7 +670,7 @@
 
     const codeNumber = parseInt(codeMatch[1]);
     if (codeNumber < 1 || codeNumber > 120) {
-        showError('Mã số phải trong khoảng MTL01-MTL120');
+        showError('Mã số phải trong khoảng MTL001-MTL120');
         return;
     }
 
