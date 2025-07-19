@@ -762,7 +762,7 @@ select option {
         }
 
         function loadSample() {
-            const orderIndex = (currentUser.codeNumber - 1) % 4;
+            const orderIndex = currentUser.codeNumber - 1;
             const sampleOrder = evaluationOrder[orderIndex];
             const sampleId = sampleOrder[currentSample];
 
