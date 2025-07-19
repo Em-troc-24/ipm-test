@@ -783,7 +783,7 @@ select option {
             container.innerHTML = '';
 
             if (!evaluationData.samples[currentSample]) {
-                const orderIndex = (currentUser.codeNumber - 1) % 4;
+                const orderIndex = currentUser.codeNumber - 1;
                 const sampleOrder = evaluationOrder[orderIndex];
                 evaluationData.samples[currentSample] = {
                     sampleId: sampleOrder[currentSample],
